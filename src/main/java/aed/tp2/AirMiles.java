@@ -1,7 +1,12 @@
 package aed.tp2;
 
 public class AirMiles implements SistemaAirMiles {
-    /*COMPLETAR*/
+    private ABB<Usuario> Usuarios;  
+    private Trie<Promocion> Promociones;
+    private Heap<MillasDisponibles,ID> ranking;
+    private int elMasCanjeador;         //?cambiar nombre? 
+    private int elMasAcumulador;        //?cambiar nombre?  
+    private ListaEnlazada<> listaParesTransferidores;
 
     public AirMiles() {
         throw new UnsupportedOperationException("Sin implementar");
