@@ -1,15 +1,22 @@
 package aed.tp2;
+import java.util.*;
 
 public class AirMiles implements SistemaAirMiles {
     private ABB<Usuario> Usuarios;  
-    private Trie<Promocion> Promociones;
-    private Heap<MillasDisponibles,ID> ranking;
+    //private Trie<Promocion> Promociones;
+    //private Heap<MillasDisponibles,ID> ranking;
     private int elMasCanjeador;         //?cambiar nombre? 
     private int elMasAcumulador;        //?cambiar nombre?  
-    private ListaEnlazada<> listaParesTransferidores;
+    private ListaEnlazada<Transferencia> listaParesTransferidores;
+
 
     public AirMiles() {
-        throw new UnsupportedOperationException("Sin implementar");
+        this.Usuarios = new ABB<Usuario>();
+        //this.Promociones = new Trie<Promocion>();
+        //this.ranking = new Heap<MillasDisponibles,ID>();
+        this.elMasCanjeador = 0;
+        this.elMasAcumulador = 0;
+        this.listaParesTransferidores = new ListaEnlazada<Transferencia>();
     }
 
     public void registrarUsuario(int id) {

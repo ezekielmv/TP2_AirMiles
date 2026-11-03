@@ -1,6 +1,6 @@
 package aed.tp2;
 
-class Usuario {
+class Usuario implements Comparable<Usuario> {
   private final int id;
   private double millasDisponibles;
   private double millasTotales;
@@ -20,4 +20,10 @@ class Usuario {
     public void Categoria () {
         throw new UnsupportedOperationException("No implementada aun");
     }
+
+    @Override
+    public int compareTo(Usuario otro) {
+        return Integer.compare(this.id, otro.id);
+    }
+    // Podriamos implementar compareTo para comparar por millas disponibles, millas totales o id.
 }
