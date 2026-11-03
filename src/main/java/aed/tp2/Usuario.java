@@ -1,10 +1,10 @@
 package aed.tp2;
 
-class Usuario implements Comparable<Usuario> {
-  private final int id;
-  private double millasDisponibles;
-  private double millasTotales;
-  private double millasGastadas;
+public class Usuario implements Comparable<Usuario> {
+    private final int id;
+    private double millasDisponibles;
+    private double millasTotales;
+    private double millasGastadas;
 
     public Usuario(int id, double disponibles, double gastadas, double totales) {
         this.id = id;

@@ -3,12 +3,12 @@ package aed.tp2;
 public class Transferencia {
     private final int idOrigen;
     private final int idDestino;
-    private final double cantidad;
+    private final double monto;
 
-    public Transferencia(int idOrigen, int idDestino, double cantidad) {
+    public Transferencia(int idOrigen, int idDestino, double monto) {
         this.idOrigen = idOrigen;
         this.idDestino = idDestino;
-        this.cantidad = cantidad;
+        this.monto = monto;         //Monto de millas transferidas
     }
 
     public int getIdOrigen() {
@@ -19,7 +19,7 @@ public class Transferencia {
         return idDestino;
     }
 
-    public double getCantidad() {
-        return cantidad;
+    public double getMonto() {
+        return monto;
     }
 }
