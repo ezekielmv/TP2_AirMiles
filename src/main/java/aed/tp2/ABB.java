@@ -8,11 +8,14 @@ public class ABB<T extends Comparable<T>> {
     private int cardinal;
     
     private class Nodo {
+        T clave;
         T valor;
         Nodo izquierda;
         Nodo derecha;
-        
-        Nodo(T v) {
+
+        //c = id
+        Nodo(T v, T c) {
+            this.clave, c
             this.valor = v;
             this.izquierda = null;
             this.derecha = null;
@@ -52,6 +55,7 @@ public class ABB<T extends Comparable<T>> {
         return maximo_recursivo(arbol.derecha);
     }
 
+    //modificar para que labure tamb con el c 
     public void insertar(T elem){
         if (!pertenece(elem)) {
             this.raiz = insertar_recursivo(elem, this.raiz);
