@@ -3,19 +3,18 @@ package aed.tp2;
 import java.util.*;
 // Todos los tipos de datos "Comparables" tienen el método compareTo()
 // elem1.compareTo(elem2) devuelve un entero. Si es mayor a 0, entonces elem1 > elem2
-public class ABB<T extends Comparable<T>> {
+public class ABB<K extends Comparable<K>, V> {
     private Nodo raiz;
     private int cardinal;
     
     private class Nodo {
-        T clave;
-        T valor;
+        K clave;          // clave va a ser el ID
+        V valor;          // valor va a ser la clase Usuario      
         Nodo izquierda;
         Nodo derecha;
-
-        //c = id
-        Nodo(T v, T c) {
-            this.clave, c
+        
+        Nodo(K c, V v) {
+            this.clave = c;
             this.valor = v;
             this.izquierda = null;
             this.derecha = null;
@@ -31,7 +30,7 @@ public class ABB<T extends Comparable<T>> {
         return this.cardinal;
     }
 
-    public T minimo(){
+    public V minimo(){
         return minimo_recursivo(this.raiz).valor;
     }
 
@@ -43,7 +42,7 @@ public class ABB<T extends Comparable<T>> {
     }
 
 
-    public T maximo(){
+    public V maximo(){
         return maximo_recursivo(this.raiz).valor;
     }
 
@@ -55,70 +54,69 @@ public class ABB<T extends Comparable<T>> {
         return maximo_recursivo(arbol.derecha);
     }
 
-    //modificar para que labure tamb con el c 
-    public void insertar(T elem){
-        if (!pertenece(elem)) {
-            this.raiz = insertar_recursivo(elem, this.raiz);
+    public void insertar(K c, V v){
+        if (!pertenece(c)) {
+            this.raiz = insertar_recursivo(c,v, this.raiz);
             this.cardinal++;
         }
     }
 
-    private Nodo insertar_recursivo(T elem, Nodo arbol) {
-        if (arbol == null) return new Nodo(elem);
+    private Nodo insertar_recursivo(K c, V v, Nodo arbol) {
+        if (arbol == null) return new Nodo(c,v);
 
-        if (arbol.valor.compareTo(elem) > 0) {
-            arbol.izquierda = insertar_recursivo(elem, arbol.izquierda);
+        if (arbol.clave.compareTo(c) > 0) {
+            arbol.izquierda = insertar_recursivo(c, v, arbol.izquierda);
         } else {
-            arbol.derecha = insertar_recursivo(elem, arbol.derecha);
+            arbol.derecha = insertar_recursivo(c, v, arbol.derecha);
         } return arbol;
     }
 
-    public boolean pertenece(T elem){
-        return pertenece_recursivo(this.raiz, elem);
+    public boolean pertenece(K c){
+        return pertenece_recursivo(this.raiz, c);
     }
 
-    private boolean pertenece_recursivo(Nodo arbol, T elemento) {
+    private boolean pertenece_recursivo(Nodo arbol, K c) {
         if (arbol == null) return false; 
 
-        if (elemento.compareTo(arbol.valor) == 0) {
+        if (c.compareTo(arbol.clave) == 0) {
             return true;
-        } else if (elemento.compareTo(arbol.valor) < 0) {
-            return pertenece_recursivo(arbol.izquierda, elemento);
+        } else if (c.compareTo(arbol.clave) < 0) {
+            return pertenece_recursivo(arbol.izquierda, c);
         } else {
-            return pertenece_recursivo(arbol.derecha, elemento);
+            return pertenece_recursivo(arbol.derecha, c);
         }
     }
 
-    public T obtener(T elem){
-        return obtener_recursivo(this.raiz, elem);
+    public V obtener(K c){
+        return obtener_recursivo(this.raiz, c);
     }
 
-    private T obtener_recursivo(Nodo arbol, T elem) {
+    private V obtener_recursivo(Nodo arbol, K c) {
         if (arbol == null) return null;
 
-        if (elem.compareTo(arbol.valor) == 0) {
+        if (c.compareTo(arbol.clave) == 0) {
             return arbol.valor;
-        } else if (elem.compareTo(arbol.valor) < 0) {
-            return obtener_recursivo(arbol.izquierda, elem);
+        } else if (c.compareTo(arbol.clave) < 0) {
+            return obtener_recursivo(arbol.izquierda, c);
         } else {
-            return obtener_recursivo(arbol.derecha, elem);
+            return obtener_recursivo(arbol.derecha, c);
         }
     }
 
 
-    public void eliminar(T elem){
-        if (!pertenece(elem)) return;
-        this.raiz = eliminar_recursivo(this.raiz, elem);
+    public void eliminar(K c){
+        if (!pertenece(c)) return;
+        this.raiz = eliminar_recursivo(this.raiz, c);
         this.cardinal--;
     }
 
-    private Nodo eliminar_recursivo(Nodo arbol, T elem) {
+    private Nodo eliminar_recursivo(Nodo arbol, K c) {
         if (arbol == null) return null;
 
-        if (elem.compareTo(arbol.valor) < 0) {
-            arbol.izquierda = eliminar_recursivo(arbol.izquierda,elem);
-        } else if (elem.compareTo(arbol.valor) > 0) {
-            arbol.derecha = eliminar_recursivo(arbol.derecha,elem);
+        if (c.compareTo(arbol.clave) < 0) {
+            arbol.izquierda = eliminar_recursivo(arbol.izquierda,c);
+        } else if (c.compareTo(arbol.clave) > 0) {
+            arbol.derecha = eliminar_recursivo(arbol.derecha,c);
         } else {
             if (arbol.izquierda == null && arbol.derecha == null) return null;
             if (arbol.izquierda == null) return arbol.derecha;
@@ -126,7 +124,7 @@ public class ABB<T extends Comparable<T>> {
 
             Nodo minimo = minimo_recursivo(arbol.derecha);
             arbol.valor = minimo.valor;
-            arbol.derecha = eliminar_recursivo(arbol.derecha, minimo.valor);
+            arbol.derecha = eliminar_recursivo(arbol.derecha, minimo.clave);
         }
         return arbol;
     }
@@ -163,7 +161,7 @@ public String toString() {
             return !pila.isEmpty();
         }
     
-        public T siguiente() {
+        public V siguiente() {
             Nodo actual = pila.pop();
             apilarIzquierdos(actual.derecha);
             return actual.valor;
@@ -174,3 +172,4 @@ public String toString() {
         return new ABB_Iterador();
     }
 }
+
