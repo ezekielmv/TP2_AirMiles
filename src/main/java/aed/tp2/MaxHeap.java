@@ -181,15 +181,16 @@ public class MaxHeap<T extends Comparable<T>>{
         return heap[0].valor();   
     }
 
-    public Handle<T> sacarMaximo(){
+    public T sacarMaximo(){
 
         if(cantidad == 0){
             throw new IllegalStateException("El heap está vacío");
         }
         HandleH maximo = heap[0];
+        maximo.indice = -1;
         eliminarHandle(0);
 
-        return maximo;
+        return maximo.valor;
     }
     
     private void eliminarHandle(int i){
