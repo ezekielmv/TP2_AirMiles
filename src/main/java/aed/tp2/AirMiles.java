@@ -2,29 +2,37 @@ package aed.tp2;
 import java.util.*;
 
 public class AirMiles implements SistemaAirMiles {
-    private ABB<Usuario> Usuarios;  
+    private ABB<Usuario> usuarios;  
     //private Trie<Promocion> Promociones;
-    //private Heap<MillasDisponibles,ID> ranking;
+    private MaxHeap<Double> ranking;
     private int elMasCanjeador;         //?cambiar nombre? 
     private int elMasAcumulador;        //?cambiar nombre?  
     private ListaEnlazada<Transferencia> listaParesTransferidores;
 
 
     public AirMiles() {
-        this.Usuarios = new ABB<Usuario>();
+        this.usuarios = new ABB<Usuario>();
         //this.Promociones = new Trie<Promocion>();
         //this.ranking = new Heap<MillasDisponibles,ID>();
-        this.elMasCanjeador = 0;
-        this.elMasAcumulador = 0;
+        this.elMasCanjeador = -1;
+        this.elMasAcumulador = -1;
         this.listaParesTransferidores = new ListaEnlazada<Transferencia>();
     }
 
+
     public void registrarUsuario(int id) {
-        throw new UnsupportedOperationException("Sin implementar");
+        /*Por requiere sabemos que el usuario no existe en el árbol */
+        Usuario nuevoUsuario = new Usuario(id, 0, 0, 0);
+        this.usuarios.insertar(nuevoUsuario);       //Complejiad O(log n) por el ABB la cosa es verificar si la complejidad es la correcta.
     }
 
     public void registrarUsuarioConReferidor(int id, int ref) {
-        throw new UnsupportedOperationException("Sin implementar");
+        Usuario referidor = usuarios.obtener(new Usuario(ref, 0, 0, 0));
+        // La especificación garantiza que el referidor existe.
+        // Esta idea funciona porque hacemos el compareTo de Usuario solo con el id, entonces podemos crear un Usuario temporal con el id del referidor y buscarlo en el ABB.
+
+        referidor.acumularMillas(500); // Acumula 500 millas por referir a un nuevo usuario
+        this.usuarios.insertar(new Usuario(id, 500, 0, 500));
     }
 
     public void acumularMillas(int id, double distancia, String nombrePromo) {
@@ -64,14 +72,14 @@ public class AirMiles implements SistemaAirMiles {
     }
 
     public int elMasAcumulador() {
-        throw new UnsupportedOperationException("Sin implementar");
+        return this.elMasAcumulador;
     }
 
     public int elMasCanjeador() {
-        throw new UnsupportedOperationException("Sin implementar");
+        return this.elMasCanjeador;
     }
 
     public int[][] paresTransferidoresExclusivos() {
-        throw new UnsupportedOperationException("Sin implementar");
+        return new int[0][];
     }
 }

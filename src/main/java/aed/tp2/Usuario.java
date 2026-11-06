@@ -21,6 +21,12 @@ public class Usuario implements Comparable<Usuario> {
         throw new UnsupportedOperationException("No implementada aun");
     }
 
+    public void acumularMillas(double millas) {
+        this.millasDisponibles += millas;
+        this.millasTotales += millas;
+    }
+
+
     @Override
     public int compareTo(Usuario otro) {
         return Integer.compare(this.id, otro.id);

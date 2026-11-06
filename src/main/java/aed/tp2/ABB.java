@@ -85,6 +85,23 @@ public class ABB<T extends Comparable<T>> {
         }
     }
 
+    public T obtener(T elem){
+        return obtener_recursivo(this.raiz, elem);
+    }
+
+    private T obtener_recursivo(Nodo arbol, T elem) {
+        if (arbol == null) return null;
+
+        if (elem.compareTo(arbol.valor) == 0) {
+            return arbol.valor;
+        } else if (elem.compareTo(arbol.valor) < 0) {
+            return obtener_recursivo(arbol.izquierda, elem);
+        } else {
+            return obtener_recursivo(arbol.derecha, elem);
+        }
+    }
+
+
     public void eliminar(T elem){
         if (!pertenece(elem)) return;
         this.raiz = eliminar_recursivo(this.raiz, elem);
