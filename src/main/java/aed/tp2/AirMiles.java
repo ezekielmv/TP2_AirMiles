@@ -21,13 +21,17 @@ public class AirMiles implements SistemaAirMiles {
 
 
     public void registrarUsuario(int id) {  
+        registrarNuevoUsuario(id);
+    }
+
+    private void registrarNuevoUsuario(int id){
+        
         if(id < 0){
             throw new IllegalStateException("El id debe ser un número válido (id >= 0)");
         }
 
         Usuario nuevoUsuario = new Usuario(id);
         usuarios.insertar(nuevoUsuario.id(), nuevoUsuario);
-        
         nuevoUsuario.recibirBonificacion(500);
 
         UsuarioRankeable usuarioRankeable = new UsuarioRankeable(nuevoUsuario);
@@ -35,21 +39,23 @@ public class AirMiles implements SistemaAirMiles {
     }
 
     public void registrarUsuarioConReferidor(int id, int ref) { 
-        if(id < 0){
-            throw new IllegalStateException("El id debe ser un número válido (id >= 0)");
-        }
-        Usuario nuevoUsuario = new Usuario(id);
-        nuevoUsuario.millasDisponibles = 500;
-        usuarios.insertar(nuevoUsuario.id(), nuevoUsuario);
-        
+        registrarNuevoUsuario(id);
+        bonificarReferidor(ref);
+    }
+    
+    private void bonificarReferidor(int ref){
+
         Usuario usuarioReferidor = usuarios.obtener(ref);
-        nuevoUsuario.recibirBonificacion(500);
+        if (usuarioReferidor == null) {
+            throw new IllegalArgumentException("No existe un usuario con ese id");
+        
+        }
         usuarioReferidor.recibirBonificacion(500);
 
-        UsuarioRankeable usuarioRankeable = new UsuarioRankeable(nuevoUsuario);
-        nuevoUsuario.asignarHandle(ranking.agregar(usuarioRankeable));
+        Handle<UsuarioRankeable> handleRefe = usuarioReferidor.handle(); 
+        handleRefe.modificar(handleRefe.valor());
     }
-
+    
     public void acumularMillas(int id, double distancia, String nombrePromo) {
         // Hay que actualizar, millasDisponibles, MillasTotales y MillasAcumuladas.
         // Hay que actualizar tambien el Heap.
