@@ -33,11 +33,18 @@ public class AirMiles implements SistemaAirMiles {
         Usuario nuevoUsuario = new Usuario(id);
         usuarios.insertar(nuevoUsuario.id(), nuevoUsuario);
         nuevoUsuario.recibirBonificacion(500);
+        chequearYActualizarMayorAcumulador(nuevoUsuario);
 
         UsuarioRankeable usuarioRankeable = new UsuarioRankeable(nuevoUsuario);
         nuevoUsuario.asignarHandle(ranking.agregar(usuarioRankeable));
     }
-
+    
+    private void chequearYActualizarMayorAcumulador(Usuario usuario){
+        if(usuario.superaAlMasAcumulador(mayorAcumulador)){
+            mayorAcumulador = usuario;
+        }
+    }
+    
     public void registrarUsuarioConReferidor(int id, int ref) { 
         registrarNuevoUsuario(id);
         bonificarReferidor(ref);
@@ -51,9 +58,13 @@ public class AirMiles implements SistemaAirMiles {
         
         }
         usuarioReferidor.recibirBonificacion(500);
+        chequearYActualizarMayorAcumulador(usuarioReferidor);
+        actualizarEnRanking(usuarioReferidor);
+    }
 
-        Handle<UsuarioRankeable> handleRefe = usuarioReferidor.handle(); 
-        handleRefe.modificar(handleRefe.valor());
+    private void actualizarEnRanking(Usuario usuario){
+        Handle<UsuarioRankeable> handle = usuario.handle();
+        handle.modificar(handle.valor());
     }
     
     public void acumularMillas(int id, double distancia, String nombrePromo) {
