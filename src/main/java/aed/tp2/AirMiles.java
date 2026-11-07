@@ -4,7 +4,7 @@ import java.util.*;
 public class AirMiles implements SistemaAirMiles {
     private ABB<Integer,Usuario> usuarios;   
     private Trie<Promocion> Promociones;
-    private MaxHeap<Double> ranking;
+    private MaxHeap<UsuarioRankeable> ranking;
     private Usuario mayorCanjeador;
     private Usuario mayorAcumulador;    
     private ListaEnlazada<Transferencia> listaParesTransferidores;
