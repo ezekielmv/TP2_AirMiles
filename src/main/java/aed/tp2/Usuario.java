@@ -63,6 +63,23 @@ public class Usuario implements Comparable<Usuario> {
         millasDisponibles -= cantidad;
         millasGastadas += cantidad;
     }
+    //para usar cada vez que alguien suma millas totales
+    //se usa y si da true, mayorAcumulador = usuario que acumuló
+    public boolean superaAlMasAcumulador(Usuario mayorAcumulador){
+        if(mayorAcumulador == null){
+            return true;
+        }
+        return millasTotales() > mayorAcumulador.millasTotales();
+    }
+    
+    //para usar cada vez que alguien gasta millas
+    //se usa y si da true, mayorCanjeador = usuario que acumuló
+    public boolean superaAlMasCanjeador(Usuario mayorCanjeador){
+        if(mayorCanjeador == null){
+            return true;
+        }
+        return millasGastadas() > mayorCanjeador.millasGastadas();
+    }
     
     public double factorCategoria() {
         double factor = 1;
