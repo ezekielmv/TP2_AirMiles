@@ -2,9 +2,9 @@ package aed.tp2;
 
 public class Usuario implements Comparable<Usuario> {
     private final int id;
-    public double millasDisponibles;
-    public double millasGastadas;
-    public double millasTotales;
+    private double millasDisponibles;
+    private double millasGastadas;
+    private double millasTotales;
     private Handle<UsuarioRankeable> handleHeap;
 
     public Usuario(int id) {
