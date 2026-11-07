@@ -113,19 +113,12 @@ public class AirMiles implements SistemaAirMiles {
     }
 
     public void transferirMillas(int origen, int destino, double cantidad) {
-        Usuario dataUsuarioOrigen = usuarios.obtener(origen);
+        // Por requiere sabemos que ambos usuarios existen en el sistema y que el origen tiene suficientes millas disponibles para transferir.
+        Usuario usuario_origen = usuarios.obtener(origen);        
+        Usuario usuario_destino = usuarios.obtener(destino);
         
-        if (dataUsuarioOrigen.millasDisponibles >= cantidad) {
-            usuarios.obtener(origen).millasDisponibles += cantidad;
-            usuarios.obtener(origen).millasTotales += cantidad;
-            usuarios.obtener(destino).millasDisponibles -= cantidad;
-            usuarios.obtener(destino).millasGastadas += cantidad;
-
-            // HAY QUE AGREGAR LA PARTE DE AGREGAR LOS PARES A LA LISTA ENLAZADA
-        }
-        else {
-            throw new IllegalStateException("No tiene suficientes millas disponibles para transferir");
-        }
+        usuario_origen.gastar(cantidad);
+        usuario_destino.recibirTransferencia(cantidad);
     }
 
     public double consultarSaldo(int id) {
