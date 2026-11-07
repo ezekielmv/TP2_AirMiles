@@ -3,10 +3,10 @@ import java.util.*;
 
 public class AirMiles implements SistemaAirMiles {
     private ABB<Integer,Usuario> usuarios;   
-    //private Trie<Promocion> Promociones;
+    private Trie<Promocion> Promociones;
     private MaxHeap<Double> ranking;
-    private int elMasCanjeador;         //?cambiar nombre? 
-    private int elMasAcumulador;        //?cambiar nombre?  
+    private Usuario mayorCanjeador;
+    private Usuario mayorAcumulador;    
     private ListaEnlazada<Transferencia> listaParesTransferidores;
 
 
@@ -150,11 +150,11 @@ public class AirMiles implements SistemaAirMiles {
     }
 
     public int elMasAcumulador() {
-        return this.elMasAcumulador;
+        return mayorAcumulador.id();
     }
 
     public int elMasCanjeador() {
-        return this.elMasCanjeador;
+        return mayorCanjeador.id();
     }
 
     public int[][] paresTransferidoresExclusivos() {
