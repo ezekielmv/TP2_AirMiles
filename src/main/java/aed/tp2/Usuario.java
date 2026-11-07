@@ -41,6 +41,29 @@ public class Usuario implements Comparable<Usuario> {
     public void asignarHandle(Handle<UsuarioRankeable> handle){
         handleHeap = handle;
     }
+
+    //si se registra solo, se le suman al usuario.
+    //si es con refe, se les suma a los dos
+    public void recibirBonificacion(double cantidad){
+        millasDisponibles += cantidad;
+        millasTotales += cantidad;
+    }
+
+    public void volar(double cantidad){
+        millasDisponibles += cantidad;
+        millasTotales += cantidad;
+    }
+
+    public void recibirTransferencia(double cantidad){
+        millasDisponibles += cantidad;
+    }
+
+    //para canjear o para enviar transferencia
+    public void gastar(double cantidad){
+        millasDisponibles -= cantidad;
+        millasGastadas += cantidad;
+    }
+    
     public double factorCategoria() {
         double factor = 1;
         if (millasTotales >= 10000 && millasTotales <= 49999) {
