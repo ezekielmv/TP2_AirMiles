@@ -129,9 +129,8 @@ public class AirMiles implements SistemaAirMiles {
     }
 
     public double consultarSaldo(int id) {
-        Usuario dataUsuario = usuarios.obtener(id);
-        double saldo = dataUsuario.millasDisponibles;
-        return saldo;
+        Usuario usuario = usuarios.obtener(id);
+        return usuario.millasDisponibles();
     }
 
     public String consultarCategoria(int id) {
