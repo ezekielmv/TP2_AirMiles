@@ -21,10 +21,10 @@ public class AirMiles implements SistemaAirMiles {
 
 
     public void registrarUsuario(int id) {  
-        registrarNuevoUsuario(id);
+        registrarNuevoUsuarioSinRefe(id);
     }
 
-    private void registrarNuevoUsuario(int id){
+    private void registrarNuevoUsuarioSinRefe(int id){
         
         if(id < 0){
             throw new IllegalStateException("El id debe ser un número válido (id >= 0)");
@@ -32,7 +32,6 @@ public class AirMiles implements SistemaAirMiles {
 
         Usuario nuevoUsuario = new Usuario(id);
         usuarios.insertar(nuevoUsuario.id(), nuevoUsuario);
-        nuevoUsuario.recibirBonificacion(500);
         chequearYActualizarMayorAcumulador(nuevoUsuario);
 
         UsuarioRankeable usuarioRankeable = new UsuarioRankeable(nuevoUsuario);
@@ -46,8 +45,23 @@ public class AirMiles implements SistemaAirMiles {
     }
     
     public void registrarUsuarioConReferidor(int id, int ref) { 
-        registrarNuevoUsuario(id);
+        registrarNuevoUsuarioConRefe(id);
         bonificarReferidor(ref);
+    }
+
+    private void registrarNuevoUsuarioConRefe(int id){
+
+        if(id < 0){
+            throw new IllegalStateException("El id debe ser un número válido (id >= 0)");
+        }
+
+        Usuario nuevoUsuario = new Usuario(id);
+        nuevoUsuario.recibirBonificacion(500);
+        usuarios.insertar(nuevoUsuario.id(), nuevoUsuario);
+        chequearYActualizarMayorAcumulador(nuevoUsuario);
+
+        UsuarioRankeable usuarioRankeable = new UsuarioRankeable(nuevoUsuario);
+        nuevoUsuario.asignarHandle(ranking.agregar(usuarioRankeable));
     }
     
     private void bonificarReferidor(int ref){
