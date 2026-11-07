@@ -20,7 +20,7 @@ public class AirMiles implements SistemaAirMiles {
     }
 
 
-    public void registrarUsuario(int id) {
+    public void registrarUsuario(int id) {  // Actualizar heap, elMasCanjeador y elMasAcumulador
         if(id < 0){
             throw new IllegalStateException("El id debe ser un número válido (id >= 0)");
         }
@@ -34,7 +34,7 @@ public class AirMiles implements SistemaAirMiles {
 
     }
 
-    public void registrarUsuarioConReferidor(int id, int ref) {
+    public void registrarUsuarioConReferidor(int id, int ref) {  // Actualizar heap, elMasCanjeador y elMasAcumulador
 
         if(id < 0){
             throw new IllegalStateException("El id debe ser un número válido (id >= 0)");
@@ -90,11 +90,33 @@ public class AirMiles implements SistemaAirMiles {
     }
 
     public void canjearMillas(int id, double cantidad) {
-        throw new UnsupportedOperationException("Sin implementar");
+        Usuario dataUsuario = usuarios.obtener(id);
+        double millasDisp = dataUsuario.millasDisponibles;
+
+        if (millasDisp >= cantidad) {
+            millasDisp -= cantidad;
+            usuarios.obtener(id).millasDisponibles = millasDisp;
+            usuarios.obtener(id).millasGastadas += cantidad;
+        }
+        else {
+            throw new IllegalStateException("No tiene suficientes millas disponibles para canjear");
+        }
     }
 
     public void transferirMillas(int origen, int destino, double cantidad) {
-        throw new UnsupportedOperationException("Sin implementar");
+        Usuario dataUsuarioOrigen = usuarios.obtener(origen);
+        
+        if (dataUsuarioOrigen.millasDisponibles >= cantidad) {
+            usuarios.obtener(origen).millasDisponibles += cantidad;
+            usuarios.obtener(origen).millasTotales += cantidad;
+            usuarios.obtener(destino).millasDisponibles -= cantidad;
+            usuarios.obtener(destino).millasGastadas += cantidad;
+
+            // HAY QUE AGREGAR LA PARTE DE AGREGAR LOS PARES A LA LISTA ENLAZADA
+        }
+        else {
+            throw new IllegalStateException("No tiene suficientes millas disponibles para transferir");
+        }
     }
 
     public double consultarSaldo(int id) {
@@ -104,7 +126,9 @@ public class AirMiles implements SistemaAirMiles {
     }
 
     public String consultarCategoria(int id) {
-       throw new UnsupportedOperationException("Sin implementar");
+       Usuario usuario = usuarios.obtener(id);
+       String categoria = usuario.Categoria();
+       return categoria;
     }
 
     public int[] rankingMillas(int n) {
