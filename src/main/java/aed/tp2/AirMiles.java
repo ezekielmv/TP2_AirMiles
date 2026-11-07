@@ -108,7 +108,31 @@ public class AirMiles implements SistemaAirMiles {
     }
 
     public int[] rankingMillas(int n) {
-        throw new UnsupportedOperationException("Sin implementar");
+        
+        int largo = 0;
+        if(n <= ranking.cantidad()){
+            largo = n;
+        }
+        else{
+            largo = ranking.cantidad();
+        }
+
+        int[] arregloRanking = new int[largo];
+        //para poder reinsertarlos en el heap
+        UsuarioRankeable[] arregloHandles = new UsuarioRankeable[largo];
+
+        for(int i = 0; i < largo; i++){
+            UsuarioRankeable maximo = ranking.sacarMaximo();
+            arregloRanking[i] = maximo.id();
+            arregloHandles[i] = maximo;
+        }
+
+        for(int i = 0; i< largo; i++){
+            Handle<UsuarioRankeable> handle = arregloHandles[i].handle();
+            ranking.reinsertar(handle);
+        }
+
+        return arregloRanking; 
     }
 
     public void iniciarPromocion(String nombre, double factor) {
