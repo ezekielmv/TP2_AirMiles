@@ -127,9 +127,7 @@ public class AirMiles implements SistemaAirMiles {
     }
 
     public String consultarCategoria(int id) {
-       Usuario usuario = usuarios.obtener(id);
-       String categoria = usuario.Categoria();
-       return categoria;
+       return usuarios.obtener(id).categoria();
     }
 
     public int[] rankingMillas(int n) {
@@ -175,10 +173,12 @@ public class AirMiles implements SistemaAirMiles {
     }
 
     public int elMasAcumulador() {
+        if(mayorAcumulador == null) return -1;
         return mayorAcumulador.id();
     }
 
     public int elMasCanjeador() {
+        if(mayorCanjeador == null) return -1;
         return mayorCanjeador.id();
     }
 
