@@ -42,11 +42,33 @@ public class Usuario implements Comparable<Usuario> {
         handleHeap = handle;
     }
     public double factorCategoria() {
-        throw new UnsupportedOperationException("No implementada aun");
+        double factor = 1;
+        if (millasTotales >= 10000 && millasTotales <= 49999) {
+            factor = 1.5;
+        }
+        else if (millasTotales >= 50000 && millasTotales <= 999999) {
+            factor = 2;
+        }
+        else if (millasTotales >= 1000000) {
+            factor = 1;
+        }
+
+        return factor;
     } 
 
     public void Categoria () {
-        throw new UnsupportedOperationException("No implementada aun");
+        String categoria = "Bronce";
+        if (this.factorCategoria() == 1.5) {
+            categoria = "Plata";
+        }
+        else if (this.factorCategoria() == 2) {
+            categoria = "Oro";
+        }
+        else if (millasTotales >= 1000000) {
+            categoria = "Platino";
+        }
+
+        return categoria; 
     }
 
     public void acumularMillas(double millas) {
