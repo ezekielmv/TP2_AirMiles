@@ -69,7 +69,7 @@ public class AirMiles implements SistemaAirMiles {
     
     public void acumularMillas(int id, double distancia, String nombrePromo) {
         // Hay que actualizar, millasDisponibles, MillasTotales y MillasAcumuladas.
-        // Hay que actualizar tambien el Heap.
+        actualizaEnRanking(usuario);
     }
 
     private double calculaMillasYActualizaPromo (Usuario usuario, double distancia, String nombrePromo) {
@@ -100,16 +100,15 @@ public class AirMiles implements SistemaAirMiles {
     }
 
     public void canjearMillas(int id, double cantidad) {
-        Usuario dataUsuario = usuarios.obtener(id);
-        double millasDisp = dataUsuario.millasDisponibles;
+        Usuario usuario = usuarios.obtener(id);
+        usuario.gastar(cantidad);
+        actualizarEnRanking(usuario);
+        chequearYActualizarMayorCanjeador(usuario);
+    }
 
-        if (millasDisp >= cantidad) {
-            millasDisp -= cantidad;
-            usuarios.obtener(id).millasDisponibles = millasDisp;
-            usuarios.obtener(id).millasGastadas += cantidad;
-        }
-        else {
-            throw new IllegalStateException("No tiene suficientes millas disponibles para canjear");
+    private void chequearYActualizarMayorCanjeador(Usuario usuario){
+        if(usuario.superaAlMasAcumulador(mayorCanjeador)){
+            mayorCanjeador = usuario;
         }
     }
 
