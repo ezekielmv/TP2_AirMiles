@@ -3,16 +3,16 @@ package aed.tp2;
 public class Usuario implements Comparable<Usuario> {
     private final int id;
     private double millasDisponibles;
-    private double millasAcumuladas;
     private double millasGastadas;
     private double millasTotales;
+    private Handle<UsuarioRankeable> handleHeap;
 
     public Usuario(int id) {
         this.id = id;
         this.millasDisponibles = 0.0;
-        this.millasAcumuladas = 0.0;
         this.millasGastadas = 0.0;
         this.millasTotales = 0.0;
+        this.handleHeap = null;
     }
         public int id(){
             return id;
@@ -24,10 +24,6 @@ public class Usuario implements Comparable<Usuario> {
 
     public double millasDisponibles(){
         return this.millasDisponibles;
-    }
-
-    public double millasAcumuladas(){
-        return millasAcumuladas;
     }
 
     public double millasGastadas(){
