@@ -7,7 +7,6 @@ public class AirMiles implements SistemaAirMiles {
     private MaxHeap<UsuarioRankeable> ranking;
     private Usuario mayorCanjeador;
     private Usuario mayorAcumulador;    
-    //private ListaEnlazada<Transferencia> listaParesTransferidores;
     private ListaEnlazada<Par> paresEsclusivos;
 
     public AirMiles() {
