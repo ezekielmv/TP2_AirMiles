@@ -3,7 +3,7 @@ import java.util.*;
 
 public class AirMiles implements SistemaAirMiles {
     private ABB<Integer,Usuario> usuarios;   
-    private Trie<Promocion> Promociones;
+    private Trie<Promocion> promociones;
     private MaxHeap<UsuarioRankeable> ranking;
     private Usuario mayorCanjeador;
     private Usuario mayorAcumulador;    
@@ -12,9 +12,9 @@ public class AirMiles implements SistemaAirMiles {
 
     public AirMiles() {
         this.usuarios = new ABB<Integer,Usuario>();
-        this.Promociones = new Trie<Promocion>();
-        Promocion nuevaPromo = new Promocion("NoPromo", 1);
-        Promociones.insertar("NoPromo",nuevaPromo);
+        this.promociones = new Trie<Promocion>();
+        Promocion nuevaPromo = new Promocion("NoPromo", 1, 0);
+        promociones.insertar("NoPromo",nuevaPromo);
         this.ranking = new MaxHeap<UsuarioRankeable>(10);
         this.mayorCanjeador = null;
         this.mayorAcumulador = null;
@@ -84,17 +84,17 @@ public class AirMiles implements SistemaAirMiles {
     }
     
     public void acumularMillas(int id, double distancia, String nombrePromo) {
-        Usuario datosUsuario = usuarios.obtener(id);
-        Double millasAcumuladas = calculaMillasYActualizaPromo(datosUsuario, distancia, nombrePromo);
-        datosUsuario.volar(millasAcumuladas);
+        Usuario usuario = usuarios.obtener(id);
+        Double millasAcumuladas = calculaMillasYActualizaPromo(usuario, distancia, nombrePromo);
+        usuario.volar(millasAcumuladas);
 
-        actualizarEnRanking(datosUsuario);
-        chequearYActualizarMayorAcumulador(datosUsuario);
+        actualizarEnRanking(usuario);
+        chequearYActualizarMayorAcumulador(usuario);
     }
 
     private double calculaMillasYActualizaPromo(Usuario usuario, double distancia, String nombrePromo) {
         double millasBase = usuario.factorCategoria() * distancia;
-        Promocion datosPromo = Promociones.buscar(nombrePromo);
+        Promocion datosPromo = promociones.buscar(nombrePromo);
 
         if (datosPromo == null) {                        // Si no existe la promo, acumula sin el factor promo
             return millasBase;
@@ -244,16 +244,16 @@ public class AirMiles implements SistemaAirMiles {
 
     public void iniciarPromocion(String nombre, double factor) {
         Promocion nuevaPromo = new Promocion(nombre, factor,0);
-        Promociones.insertar(nombre,nuevaPromo);
+        promociones.insertar(nombre,nuevaPromo);
     }
 
     public void iniciarPromocionConTope(String nombre, double factor, double tope) {
         Promocion nuevaPromo = new Promocion(nombre, factor, tope);
-        Promociones.insertar(nombre,nuevaPromo);
+        promociones.insertar(nombre,nuevaPromo);
     }
 
     public void finalizarPromocion(String nombre) {
-        Promociones.eliminar(nombre);
+        promociones.eliminar(nombre);
     }
 
     public int elMasAcumulador() {
