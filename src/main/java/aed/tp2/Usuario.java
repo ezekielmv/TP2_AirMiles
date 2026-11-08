@@ -6,6 +6,9 @@ public class Usuario implements Comparable<Usuario> {
     private double millasGastadas;
     private double millasTotales;
     private Handle<UsuarioRankeable> handleHeap;
+    private Usuario unicoDestinoTransferencias;
+    private boolean realizoTransferenciasMultiples;
+    private Par parExclusivo;
 
     public Usuario(int id) {
         this.id = id;
@@ -13,8 +16,12 @@ public class Usuario implements Comparable<Usuario> {
         this.millasGastadas = 0.0;
         this.millasTotales = 0.0;
         this.handleHeap = null;
+        this.unicoDestinoTransferencias = null;
+        this.realizoTransferenciasMultiples = false;
+        this.parExclusivo = null;
     }
-        public int id(){
+
+    public int id(){
             return id;
     }
 
@@ -94,6 +101,39 @@ public class Usuario implements Comparable<Usuario> {
         this.millasDisponibles += millas;
         this.millasTotales += millas;
     }
+
+    // Metodos para el uso de transferencias.
+    public Usuario unicoDestino() {
+        return unicoDestinoTransferencias;
+    }
+
+    public boolean esTransferidorValidoUnico() {
+        return !realizoTransferenciasMultiples && unicoDestinoTransferencias != null;
+    }
+
+    public Par parExclusivo() {
+        return parExclusivo;
+    }
+
+    public void setParExclusivo(Par par) {
+        this.parExclusivo = par;
+    }
+
+    public void registrarTransferencia(Usuario destino) {
+        if (realizoTransferenciasMultiples) {
+            return;
+        }
+
+        if (unicoDestinoTransferencias == null) {
+            // Primera transferencia realizada por este usuario
+            unicoDestinoTransferencias = destino;
+        } else if (unicoDestinoTransferencias.id() != destino.id()) {
+            // Se le transfirio a un segundo usuario diferente -> pierde exclusividad para siempre
+            realizoTransferenciasMultiples = true;
+            unicoDestinoTransferencias = null;
+        }
+    }
+            // Si unicoDestinoTransferencias.id() == destino.id(), se mantiene la exclusividad
 
 
     @Override
