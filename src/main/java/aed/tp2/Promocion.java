@@ -6,15 +6,7 @@ public class Promocion {
     private final double tope;
     private double _acumulado;
 
-    //constructor sin tope
-    public Promocion(String nombre, double factor) {
-        this.nombre = nombre;
-        this.factor = factor;
-        this.tope = 0;
-        this._acumulado = 0;
-    }
-
-    //constructor con tope
+    
     public Promocion(String nombre, double factor, double tope) {
         this.nombre = nombre;
         this.factor = factor;
