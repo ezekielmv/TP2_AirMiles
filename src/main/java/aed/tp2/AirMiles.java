@@ -92,31 +92,35 @@ public class AirMiles implements SistemaAirMiles {
         chequearYActualizarMayorAcumulador(datosUsuario);
     }
 
-    private double calculaMillasYActualizaPromo (Usuario usuario, double distancia, String nombrePromo) {
+    private double calculaMillasYActualizaPromo(Usuario usuario, double distancia, String nombrePromo) {
+        double millasBase = usuario.factorCategoria() * distancia;
         Promocion datosPromo = Promociones.buscar(nombrePromo);
-        double factorPromo = datosPromo.factor();
-        double millas = usuario.factorCategoria() * distancia * factorPromo;
-        double nuevoAcumuladoPromo = datosPromo.acumulado();
 
-        if (datosPromo.tieneTope()){ // tiene tope
-            nuevoAcumuladoPromo = nuevoAcumuladoPromo + millas;
-            if (nuevoAcumuladoPromo > datosPromo.tope()) {           // supera lo que puede cambiar, no usa la promo
-                factorPromo = 1;
-            }
-            else {
-                if (nuevoAcumuladoPromo == datosPromo.tope()) {     // usa la promo, llega al tope asi que tiene que eliminarla
-                    Promociones.eliminar(nombrePromo);
-                }
-                else {                                             // no llega al tope, usa la promo asi que solo actualiza el acumulado de la promo
-                    nuevoAcumuladoPromo += millas;
-                    datosPromo._acumulado = nuevoAcumuladoPromo;
-                }
-            }
+        if (datosPromo == null) {                        // Si no existe la promo, acumula sin el factor promo
+            return millasBase;
         }
 
-        millas = usuario.factorCategoria() * distancia * factorPromo;
+        double factorPromo = datosPromo.factor();
+        double millasAacumular = millasBase * factorPromo;
 
-        return millas;
+        if (!datosPromo.tieneTope()) {
+            return millasAacumular;
+        }
+
+        double nuevoAcumulado = datosPromo.acumulado() + millasAacumular;
+
+        if (nuevoAcumulado < datosPromo.tope()) {             // Usa la promo con su factor y actualiza el acumulado de la promo
+            datosPromo.actualizaAcumulado(nuevoAcumulado);
+            return millasAacumular;
+
+        } else if (nuevoAcumulado == datosPromo.tope()) {     // Usa la promo, llega al tope asi que actualiza su acumulado y factor
+            datosPromo.actualizaAcumulado(nuevoAcumulado);
+            datosPromo.actualizaFactor(1.0);
+            return millasAacumular;
+
+        } else {
+            return millasBase;                                // Las millas a acumular superan las disponibles, no usa la promo
+        }
     }
 
     public void canjearMillas(int id, double cantidad) {
@@ -139,6 +143,8 @@ public class AirMiles implements SistemaAirMiles {
         
         usuario_origen.gastar(cantidad);
         usuario_destino.recibirTransferencia(cantidad);
+        chequearYActualizarMayorCanjeador(usuario_destino);
+        chequearYActualizarMayorCanjeador(usuario_origen);
     }
 
     public double consultarSaldo(int id) {
