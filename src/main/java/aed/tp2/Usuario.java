@@ -75,7 +75,7 @@ public class Usuario implements Comparable<Usuario> {
     
     public double factorCategoria() {
         String categoria = this.categoria();
-        if(categoria.equals("Platino")) return 1.0;
+        if(categoria.equals("Platino")) return 0.0;
         if(categoria.equals("Oro")) return 2.0;
         if(categoria.equals("Plata")) return 1.5;
         
