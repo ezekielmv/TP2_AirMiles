@@ -13,6 +13,8 @@ public class AirMiles implements SistemaAirMiles {
     public AirMiles() {
         this.usuarios = new ABB<Integer,Usuario>();
         this.Promociones = new Trie<Promocion>();
+        Promocion nuevaPromo = new Promocion("NoPromo", 1);
+        Promociones.insertar("NoPromo",nuevaPromo);
         this.ranking = new MaxHeap<UsuarioRankeable>(10);
         this.mayorCanjeador = null;
         this.mayorAcumulador = null;
@@ -82,8 +84,12 @@ public class AirMiles implements SistemaAirMiles {
     }
     
     public void acumularMillas(int id, double distancia, String nombrePromo) {
-        // Hay que actualizar, millasDisponibles, MillasTotales y MillasAcumuladas.
-        actualizaEnRanking(usuario);
+        Usuario datosUsuario = usuarios.obtener(id);
+        Double millasAcumuladas = calculaMillasYActualizaPromo(datosUsuario, distancia, nombrePromo);
+        datosUsuario.volar(millasAcumuladas);
+
+        actualizarEnRanking(datosUsuario);
+        chequearYActualizarMayorAcumulador(datosUsuario);
     }
 
     private double calculaMillasYActualizaPromo (Usuario usuario, double distancia, String nombrePromo) {
