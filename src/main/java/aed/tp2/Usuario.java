@@ -97,11 +97,6 @@ public class Usuario implements Comparable<Usuario> {
         return "Bronce";
     }
 
-    public void acumularMillas(double millas) {
-        this.millasDisponibles += millas;
-        this.millasTotales += millas;
-    }
-
     // Metodos para el uso de transferencias.
     public Usuario unicoDestino() {
         return unicoDestinoTransferencias;
