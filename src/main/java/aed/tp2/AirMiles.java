@@ -7,7 +7,7 @@ public class AirMiles implements SistemaAirMiles {
     private MaxHeap<UsuarioRankeable> ranking;
     private Usuario mayorCanjeador;
     private Usuario mayorAcumulador;    
-    private ListaEnlazada<Par> paresEsclusivos;
+    private ListaEnlazada<Par> paresExclusivos;
 
     public AirMiles() {
         this.usuarios = new ABB<Integer,Usuario>();
@@ -17,7 +17,7 @@ public class AirMiles implements SistemaAirMiles {
         this.ranking = new MaxHeap<UsuarioRankeable>(10);
         this.mayorCanjeador = null;
         this.mayorAcumulador = null;
-        this.paresEsclusivos = new ListaEnlazada<Par>();
+        this.paresExclusivos = new ListaEnlazada<Par>();
     }
 
 
@@ -182,7 +182,7 @@ public class AirMiles implements SistemaAirMiles {
         }
 
         // Eliminamos el nodo de la lista enlazada en O(1)
-        paresEsclusivos.eliminar(par_a_romper.nodoEnLista());
+        paresExclusivos.eliminar(par_a_romper.nodoEnLista());
 
         // Desvinculamos la referencia del par en ambos usuarios
         usuario.setParExclusivo(null);
@@ -195,7 +195,7 @@ public class AirMiles implements SistemaAirMiles {
                     destino.unicoDestino().id() == origen.id()) {
 
                 Par nuevoPar = new Par(origen, destino);
-                ListaEnlazada<Par>.Nodo nodo = paresEsclusivos.agregarAtrasYDevolverNodo(nuevoPar);
+                ListaEnlazada<Par>.Nodo nodo = paresExclusivos.agregarAtrasYDevolverNodo(nuevoPar);
                 nuevoPar.asignarNodo(nodo);
 
                 origen.setParExclusivo(nuevoPar);
@@ -266,15 +266,20 @@ public class AirMiles implements SistemaAirMiles {
     }
 
     public int[][] paresTransferidoresExclusivos() {
-        int n = paresEsclusivos.longitud();
-        int[][] resultado = new int[n][2];
+        
+        int n = paresExclusivos.longitud();
+        int[][] listaExclusivos = new int[n][2];
+        ListaEnlazada<Par>.ListaIterador it = paresExclusivos.iterador();
 
-        for (int i = 0; i < n; i++) {
-            Par par = paresEsclusivos.obtener(i);
-            resultado[i][0] = par.idA();
-            resultado[i][1] = par.idB();
+        int i = 0;
+        while(it.haySiguiente()){
+            Par parActual = it.siguiente();
+            listaExclusivos[i][0] = parActual.idA();
+            listaExclusivos[i][1] = parActual.idB();
+
+            i++;
         }
 
-        return resultado;
+        return listaExclusivos;
     }
 }
