@@ -2,7 +2,7 @@ package aed.tp2;
 
 public class Promocion {
     private final String nombre;
-    private final double factor;
+    private double factor;
     private final double tope;
     private double _acumulado;
 
@@ -41,7 +41,15 @@ public class Promocion {
     
     public boolean tieneTope() {
        return tope > 0;
-    }    
+    }
+    
+    public void actualizaFactor(double factor){
+        this.factor = factor;
+    }
+
+    public void actualizaAcumulado(double acumulado){
+        this._acumulado = acumulado;
+    }
 
     // Requiere: las millas a acumular no superan el tope (si tiene).
     public void acumular(double millas) {
@@ -52,4 +60,5 @@ public class Promocion {
     }
 
 }
+ 
  
