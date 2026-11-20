@@ -135,5 +135,5 @@ public class Usuario implements Comparable<Usuario> {
     public int compareTo(Usuario otro) {
         return Integer.compare(this.id, otro.id);
     }
-    // Podriamos implementar compareTo para comparar por millas disponibles, millas totales o id.
+    
 }
