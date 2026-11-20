@@ -9,8 +9,8 @@ public class Trie<T> {
         private Nodo<T>[] hijos;
 
         public Nodo(){
-            dato = null;   // 128 para contener los caracteres ASCII
-            hijos = new Nodo[128]; // es un arreglo de nodos donde el numero de cada posicion representa el caracter "A" = 65
+            dato = null;   // 256 para contener los caracteres ASCII, tildes y la ñ
+            hijos = new Nodo[256]; // es un arreglo de nodos donde el numero de cada posicion representa el caracter "A" = 65
         }
     }
 
@@ -24,6 +24,10 @@ public class Trie<T> {
         for (int i = 0 ; i < clave.length(); i++){
             char letra = clave.charAt(i);           // quiero usar el valor de ese caracter como una posicion del arreglo
 
+            if (letra >= actual.hijos.length){
+                throw new IllegalStateException("El caracter no pertenece al alfabeto del Trie");
+            }
+            
             if (actual.hijos[letra] == null) {  // Si ese caracter no existe, creo un nodo nuevo alli que lo contenga
                 actual.hijos[letra] = new Nodo<>();
                 actual = actual.hijos[letra];
@@ -42,6 +46,10 @@ public class Trie<T> {
         for (int i = 0 ; i < clave.length(); i++){
             char letra = clave.charAt(i);
 
+            if (letra >= actual.hijos.length){
+                throw new IllegalStateException("El caracter no pertenece al alfabeto del Trie");
+            }
+
             if (actual.hijos[letra] == null) {
                 return null;
             }
@@ -57,6 +65,10 @@ public class Trie<T> {
 
         for (int i=0; i < clave.length() ; i++) {
             char letra = clave.charAt(i);
+
+            if (letra >= actual.hijos.length){
+                throw new IllegalStateException("El caracter no pertenece al alfabeto del Trie");
+            }
             
             if (actual.hijos[letra] == null) {
                 return ;
