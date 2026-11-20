@@ -13,11 +13,6 @@ public class Promocion {
         this.tope = tope;
         this._acumulado = 0;
     }
-
-
-    public String nombre() {
-        return nombre;
-    }
     
     public double factor() {
         return factor;
@@ -43,13 +38,7 @@ public class Promocion {
         this._acumulado = acumulado;
     }
 
-    // Requiere: las millas a acumular no superan el tope (si tiene).
-    public void acumular(double millas) {
-        if (this.tieneTope() && _acumulado + millas > tope) {
-            return;
-        }
-        _acumulado += millas;
-    }
+}
 
 }
  
