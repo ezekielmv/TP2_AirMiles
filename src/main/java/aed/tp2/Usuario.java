@@ -1,6 +1,6 @@
 package aed.tp2;
 
-public class Usuario implements Comparable<Usuario> {
+public class Usuario {
     private final int id;
     private double millasDisponibles;
     private double millasGastadas;
@@ -130,10 +130,5 @@ public class Usuario implements Comparable<Usuario> {
     }
             // Si unicoDestinoTransferencias.id() == destino.id(), se mantiene la exclusividad
 
-
-    @Override
-    public int compareTo(Usuario otro) {
-        return Integer.compare(this.id, otro.id);
-    }
     
 }
