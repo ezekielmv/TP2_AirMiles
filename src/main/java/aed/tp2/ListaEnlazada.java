@@ -24,20 +24,7 @@ public class ListaEnlazada<T> {
         return this.cantidad;
     }
 
-    public void agregarAtras(T elem) {
-        agregarAtrasYDevolverNodo(elem);
-    }
-
-    public T obtener(int i) {
-        Nodo actual = this.first;
-        
-        for (int j = 0; j < i; j++){
-            actual = actual.siguiente;
-        }
-        return actual.valor;
-}
-
-    /* Metodo para agregar al final y retornar el Nodo creado */
+	    /* Metodo para agregar al final y retornar el Nodo creado */
     public Nodo agregarAtrasYDevolverNodo(T elem) {
         Nodo nodo = new Nodo(elem);
         if (this.last == null) {
@@ -53,7 +40,7 @@ public class ListaEnlazada<T> {
         this.cantidad++;
         return nodo;
     }
-
+	
     /* Metodo para eliminar un nodo específico en O(1) */
     public void eliminar(Nodo nodo) {
         if (nodo == null) return;
