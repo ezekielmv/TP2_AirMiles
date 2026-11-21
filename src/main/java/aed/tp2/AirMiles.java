@@ -84,7 +84,7 @@ public class AirMiles implements SistemaAirMiles {
     
     public void acumularMillas(int id, double distancia, String nombrePromo) {
         Usuario usuario = usuarios.obtener(id);
-        Double millasAcumuladas = calculaMillasYActualizaPromo(usuario, distancia, nombrePromo);
+        double millasAcumuladas = calculaMillasYActualizaPromo(usuario, distancia, nombrePromo);
         usuario.volar(millasAcumuladas);
 
         actualizarEnRanking(usuario);
