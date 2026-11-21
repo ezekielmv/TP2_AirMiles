@@ -129,10 +129,6 @@ public class MaxHeap<T extends Comparable<T>>{
         return cantidad;
     }
 
-    public int capacidad(){
-        return capacidad;
-    }
-
     public Handle<T> agregar(T elem){
 
         if(cantidad==capacidad){
@@ -170,15 +166,6 @@ public class MaxHeap<T extends Comparable<T>>{
         }
 
         insertarHandle(h);
-    }
-
-    public T maximo(){
-
-        if(cantidad == 0){
-            throw new IllegalStateException("El heap está vacío");
-        }
-
-        return heap[0].valor();   
     }
 
     public T sacarMaximo(){
