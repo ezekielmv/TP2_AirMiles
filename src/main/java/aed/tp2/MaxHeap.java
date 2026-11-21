@@ -207,21 +207,4 @@ public class MaxHeap<T extends Comparable<T>>{
         }
     }
     
-    @SuppressWarnings("unchecked")
-    public void heapify(T[] conjunto){
-
-        if(cantidad>0){
-            throw new IllegalStateException("Ya hay un heap creado");
-        }
-        capacidad = conjunto.length;
-        cantidad = conjunto.length;
-        heap = (HandleH[]) new MaxHeap.HandleH[capacidad];
-        for(int i = 0; i < cantidad; i++){
-            heap[i] = new HandleH(conjunto[i], i);
-        }
-
-        for(int i =(cantidad/2) - 1; i >= 0; i--){
-            bajar(i);
-        }
-    }
 }
