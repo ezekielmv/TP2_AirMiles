@@ -22,10 +22,10 @@ public class AirMiles implements SistemaAirMiles {
 
 
     public void registrarUsuario(int id) {  
-        registrarNuevoUsuarioSinRefe(id);
+        registrarNuevoUsuario(id);
     }
 
-    private void registrarNuevoUsuarioSinRefe(int id){
+    private void registrarNuevoUsuario(int id){
         
         if(id < 0){
             throw new IllegalStateException("El id debe ser un número válido (id >= 0)");
@@ -46,35 +46,21 @@ public class AirMiles implements SistemaAirMiles {
     }
     
     public void registrarUsuarioConReferidor(int id, int ref) { 
-        registrarNuevoUsuarioConRefe(id);
+        registrarNuevoUsuario(id);
+        bonificarUsuario(id);
         bonificarReferidor(ref);
     }
+        
+    private void bonificarUsuario(int id){
 
-    private void registrarNuevoUsuarioConRefe(int id){
-
-        if(id < 0){
-            throw new IllegalStateException("El id debe ser un número válido (id >= 0)");
-        }
-
-        Usuario nuevoUsuario = new Usuario(id);
-        nuevoUsuario.recibirBonificacion(500);
-        usuarios.insertar(nuevoUsuario.id(), nuevoUsuario);
-        chequearYActualizarMayorAcumulador(nuevoUsuario);
-
-        UsuarioRankeable usuarioRankeable = new UsuarioRankeable(nuevoUsuario);
-        nuevoUsuario.asignarHandle(ranking.agregar(usuarioRankeable));
-    }
-    
-    private void bonificarReferidor(int ref){
-
-        Usuario usuarioReferidor = usuarios.obtener(ref);
-        if (usuarioReferidor == null) {
+        Usuario usuario = usuarios.obtener(id);
+        if (usuario == null) {
             throw new IllegalArgumentException("No existe un usuario con ese id");
         
         }
-        usuarioReferidor.recibirBonificacion(500);
-        chequearYActualizarMayorAcumulador(usuarioReferidor);
-        actualizarEnRanking(usuarioReferidor);
+        usuario.recibirBonificacion(500);
+        chequearYActualizarMayorAcumulador(usuario);
+        actualizarEnRanking(usuario);
     }
 
     private void actualizarEnRanking(Usuario usuario){
