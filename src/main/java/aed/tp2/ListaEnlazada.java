@@ -134,45 +134,25 @@ public class ListaEnlazada<T> {
         return str;
     }
 
-    public class ListaIterador{
-    	private int dedito;
-        private ListaEnlazada<T> lista;
+	public class ListaIterador{
+    	private Nodo actual;
 
-        public ListaIterador(ListaEnlazada<T> lista) {
-            this.lista = lista;
-            this.dedito = 0;
+        public ListaIterador() {
+            this.actual = first;
         }
 
         public boolean haySiguiente() {
-	        return (lista.cantidad != this.dedito);
-        }
-        
-        public boolean hayAnterior() {
-	        return dedito > 0;
+	        return actual != null;
         }
 
         public T siguiente() {
-            if (haySiguiente()){
-                int i = this.dedito;
-                this.dedito++;
-                return lista.obtener(i);
-            }
-            return null;
-        }
-        
-
-        public T anterior() {
-	        if (hayAnterior()){
-                int i = this.dedito;
-                this.dedito--;
-                return lista.obtener(i-1);
-            }
-            return  null;
+            T valor = actual.valor;
+            actual = actual.siguiente;
+            return valor;
         }
     }
-
-    public ListaIterador iterador() {
-	    return new ListaIterador(this);
+	public ListaIterador iterador() {
+	    return new ListaIterador();
     }
-
+	
 }
