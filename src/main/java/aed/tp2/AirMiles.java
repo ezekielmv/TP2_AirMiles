@@ -48,7 +48,7 @@ public class AirMiles implements SistemaAirMiles {
     public void registrarUsuarioConReferidor(int id, int ref) { 
         registrarNuevoUsuario(id);
         bonificarUsuario(id);
-        bonificarReferidor(ref);
+        bonificarUsuario(ref);
     }
         
     private void bonificarUsuario(int id){
